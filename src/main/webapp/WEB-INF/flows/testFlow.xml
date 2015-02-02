@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow
+                          http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+  <on-start>
+    <set name="flowScope.counter" value="1" type="java.lang.Integer"/>
+  </on-start>
+
+   <view-state id="redirect" redirect="true" view="externalRedirect:/flow/testFlow?count=#{flowScope.counter}&amp;execution=#{flowExecutionContext.key.toString()}&amp;_eventId=redirect">
+     <transition on="redirect" to="counter"/>
+  </view-state>  
+
+  <action-state id="counter">
+    <evaluate expression="flowScope.counter+1" result="flowScope.counter"/>
+ 	<transition to="metaRedirect"/>
+  </action-state>
+  
+  <view-state id="metaRedirect" view="metaRedirect" >
+     <transition to="redirect"/>
+  </view-state>
+
+  <end-state id="end" view="endView">
+  </end-state>
+</flow>
