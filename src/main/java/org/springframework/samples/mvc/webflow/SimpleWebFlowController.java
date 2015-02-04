@@ -41,9 +41,6 @@ public class SimpleWebFlowController extends FlowController {
 		sessionDebug = StringUtils.trimToEmpty(sessionDebug);
 		logger.info("sessionDebug is:" + sessionDebug);
 
-		Theme theme = RequestContextUtils.getTheme(request);
-		request.getSession().setAttribute("session.theme", theme);
-
 		Map<Integer, Integer> sessionMap = getSessionMap(request);
 		switch (sessionDebug) {
 		case "static-nonchanging":
