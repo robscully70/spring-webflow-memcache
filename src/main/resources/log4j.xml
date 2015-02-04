@@ -34,6 +34,10 @@
 		<level value="debug" />
 	</logger>
 
+	<logger name="org.springframework.samples.mvc.webflow">
+		<level value="all" />
+	</logger>
+
 	<root>
 		<priority value="warn" />
 		<appender-ref ref="console" />
