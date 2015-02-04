@@ -2,6 +2,11 @@ Welcome:
 ====================
 This project is to demonstrate an Issue I am having with memcache (or more likely the connector from [memcached-session-manager](https://code.google.com/p/memcached-session-manager/) ).
 
+Notes:
+
+* Tests can be stopped by hitting the ESC button.
+* Only one test allowed per session
+* To start a new test you have to use the original url. Which will create a new flow.
 
 To get the code:
 ====================
