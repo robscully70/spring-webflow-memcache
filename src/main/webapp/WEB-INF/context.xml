@@ -24,6 +24,6 @@
 			memcachedNodes="n1:localhost:11211"
 			memcachedProtocol="binary"
 			sticky="false"
-			sessionBackupAsync="true"
+			sessionBackupAsync="false"
 	/>
 </Context>
