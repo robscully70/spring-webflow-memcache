@@ -77,9 +77,11 @@ Other Test Modes
 ----------------
 by default the grow strategy is used. This can be changed with a debug variable that is intended to be set at the start of the flow.
 
-* grow -[http://localhost:8080/spring-mvc-showcase/flow/testFlow?debug=grow](http://localhost:8080/spring-mvc-showcase/flow/testFlow?debug=grow)
-* static size, unchangeing [http://localhost:8080/spring-mvc-showcase/flow/testFlow?debug=static-nonchanging](http://localhost:8080/spring-mvc-showcase/flow/testFlow?debug=static-nonchanging)
-* static size, changeing [http://localhost:8080/spring-mvc-showcase/flow/testFlow?debug=static-changing](http://localhost:8080/spring-mvc-showcase/flow/testFlow?debug=static-changing)
+* [grow](http://localhost:8080/spring-mvc-showcase/flow/testFlow?debug=grow)
+* [static size, unchangeing](http://localhost:8080/spring-mvc-showcase/flow/testFlow?debug=static-nonchanging)
+* [static size, changeing](http://localhost:8080/spring-mvc-showcase/flow/testFlow?debug=static-changing)
+* [static size, changeing](http://localhost:8080/spring-mvc-showcase/flow/testFlow?debug=large-changing) - large default 16MB can be changed with the parameter 'size' in bytes
+* [large, changing in webflow](http://localhost:8080/spring-mvc-showcase/flow/sessionChangingFlow?debug=webflow)
 
 Spring MVC Showcase
 ====================
