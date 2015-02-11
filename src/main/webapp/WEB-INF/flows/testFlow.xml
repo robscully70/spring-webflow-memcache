@@ -18,7 +18,7 @@
   </action-state>
 
   <action-state id="logCounter">
-    <evaluate expression="T(org.springframework.samples.mvc.webflow.SimpleWebFlowController).logCount(flowScope.counter)"/>
+    <evaluate expression="T(org.springframework.test.memcache.webflow.SimpleWebFlowController).logCount(flowScope.counter)"/>
     <transition to="metaRedirect"/>
   </action-state>
 

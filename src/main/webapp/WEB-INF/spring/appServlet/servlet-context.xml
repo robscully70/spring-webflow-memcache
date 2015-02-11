@@ -46,5 +46,5 @@
 
 	<task:annotation-driven />
 
-	<beans:import resource="classpath*:flows/webflow.xml" />
+
 </beans:beans>

@@ -1,4 +1,4 @@
-package org.springframework.samples.mvc.webflow;
+package org.springframework.test.memcache;
 
 import java.util.Random;
 

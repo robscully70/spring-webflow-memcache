@@ -1,4 +1,4 @@
-package org.springframework.samples.mvc.webflow;
+package org.springframework.test.memcache.webflow;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -15,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.memcache.LargeSessionObject;
 import org.springframework.ui.context.Theme;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

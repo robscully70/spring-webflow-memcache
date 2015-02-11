@@ -11,5 +11,6 @@
 	<mvc:view-controller path="/" view-name="home"/>
 	
 	<context:component-scan base-package="org.springframework.samples.mvc" />
-	 
+	<context:component-scan base-package="org.springframework.test.memcache" />
+	<import resource="classpath*:flows/webflow.xml" />
 </beans>
