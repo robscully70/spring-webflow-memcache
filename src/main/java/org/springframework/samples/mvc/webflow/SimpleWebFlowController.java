@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.RandomUtils;
 import org.apache.log4j.Logger;
@@ -26,16 +27,27 @@ import org.springframework.webflow.mvc.servlet.FlowController;
 @Controller
 public class SimpleWebFlowController extends FlowController {
 
+	private static final String SESSION_LARGE_OBJECT = "session.large.object";
 	private static final String SESSION_DEBUG = "session.debug";
 	private static final String SESSION_MAP = "session.map";
 	Logger logger = Logger.getLogger(this.getClass());
 	Random random = new Random();
 
 	@RequestMapping("/flow/*Flow")
-	public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) String debug) {
+	public ModelAndView handleRequest(HttpServletRequest request,
+			HttpServletResponse response,
+			@RequestParam(required = false) String debug,
+			@RequestParam(required = false) Integer size,
+			@RequestParam(required = false) Boolean webflowChangesOnly) {
+		if (BooleanUtils.isFalse(webflowChangesOnly)) {
+			logger.info("going directly to the flow");
+			return handleRequest(request, response);
+		}
 		if (!StringUtils.isBlank(debug)) {
+			logger.info("debug parameter found, resetting session attributes");
 			request.getSession().setAttribute(SESSION_DEBUG, debug);
 			request.getSession().removeAttribute(SESSION_MAP);
+			request.getSession().removeAttribute(SESSION_LARGE_OBJECT);
 		}
 		String sessionDebug = (String) request.getSession().getAttribute(SESSION_DEBUG);
 		sessionDebug = StringUtils.trimToEmpty(sessionDebug);
@@ -49,6 +61,13 @@ public class SimpleWebFlowController extends FlowController {
 		case "static-changing":
 			fillMapToSize(sessionMap, 350);
 			changeOneEntry(sessionMap);
+			break;
+		case "large-changing":
+			LargeSessionObject largeSessionObject = getLargeSessionObject(request, size);
+			largeSessionObject.mutateAll();
+			break;
+		case "webflow":
+			// all action in the webflow
 			break;
 		case "growing":
 		default:
@@ -103,6 +122,18 @@ public class SimpleWebFlowController extends FlowController {
 			request.getSession().setAttribute(SESSION_MAP, sessionMap);
 		}
 		return (Map<Integer, Integer>) sessionMap;
+	}
+
+	private LargeSessionObject getLargeSessionObject(HttpServletRequest request, Integer size) {
+		int sizeToUse = size != null ? size : 16000000;
+		if (request.getSession().getAttribute(SESSION_LARGE_OBJECT) == null) {
+			LargeSessionObject largeSessionObject = SimpleWebFlowController.createLargeObject(sizeToUse);
+			request.getSession().setAttribute(SESSION_LARGE_OBJECT, largeSessionObject);
+		}
+		return (LargeSessionObject) request.getSession().getAttribute(SESSION_LARGE_OBJECT);
+	}
+	public static LargeSessionObject createLargeObject(int sizeToUse){
+		return new LargeSessionObject(sizeToUse);
 	}
 
 	@Resource
