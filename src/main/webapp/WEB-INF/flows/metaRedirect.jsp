@@ -2,6 +2,7 @@
 <head>
 <!--  
  -->
+ <title>${counter}</title>
 <meta http-equiv="refresh" content="0;URL=${flowExecutionUrl}&_eventId=redirect&fromMeta=true">
 </head>
 <body bgcolor="#ffffff">
