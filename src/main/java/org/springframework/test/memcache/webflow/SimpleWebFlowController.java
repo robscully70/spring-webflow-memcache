@@ -1,9 +1,7 @@
 package org.springframework.test.memcache.webflow;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import javax.annotation.Resource;
@@ -12,15 +10,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.RandomUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.memcache.LargeSessionObject;
-import org.springframework.ui.context.Theme;
+import org.springframework.test.memcache.MapManipulator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.webflow.execution.repository.FlowExecutionRestorationFailureException;
 import org.springframework.webflow.executor.FlowExecutor;
 import org.springframework.webflow.mvc.servlet.FlowController;
@@ -57,11 +53,11 @@ public class SimpleWebFlowController extends FlowController {
 		Map<Integer, Integer> sessionMap = getSessionMap(request);
 		switch (sessionDebug) {
 		case "static-nonchanging":
-			fillMapToSize(sessionMap, 350);
+			MapManipulator.fillMapToSize(sessionMap, 350);
 			break;
 		case "static-changing":
-			fillMapToSize(sessionMap, 350);
-			changeOneEntry(sessionMap);
+			MapManipulator.fillMapToSize(sessionMap, 350);
+			MapManipulator.changeOneEntry(sessionMap);
 			break;
 		case "large-changing":
 			LargeSessionObject largeSessionObject = getLargeSessionObject(request, size);
@@ -72,7 +68,7 @@ public class SimpleWebFlowController extends FlowController {
 			break;
 		case "growing":
 		default:
-			grow(sessionMap);
+			MapManipulator.grow(sessionMap);
 			break;
 		}
 		logger.info("about to look up the flow sessionMap size is: " + sessionMap.size());
@@ -93,28 +89,6 @@ public class SimpleWebFlowController extends FlowController {
 		return null;
 	}
 
-	private void changeOneEntry(Map<Integer, Integer> sessionMap) {
-		Iterator<Entry<Integer, Integer>> iterator = sessionMap.entrySet().iterator();
-		iterator.next();
-		iterator.remove();
-		grow(sessionMap);
-	}
-
-	private void fillMapToSize(Map<Integer, Integer> map, int size) {
-		if (map.size() < size) {
-			int addAmount = size - map.size();
-			for (; addAmount > 0; addAmount--) {
-				grow(map);
-			}
-			logger.info("filled map size is now" + map.size());
-		}
-	}
-
-	private void grow(Map<Integer, Integer> sessionMap) {
-		sessionMap.put(RandomUtils.nextInt(random), RandomUtils.nextInt(random));
-		logger.info("Added Integer pair size is now: " + sessionMap.size());
-	}
-
 	@SuppressWarnings("unchecked")
 	private Map<Integer, Integer> getSessionMap(HttpServletRequest request) {
 		Object sessionMap = request.getSession().getAttribute(SESSION_MAP);
@@ -133,8 +107,13 @@ public class SimpleWebFlowController extends FlowController {
 		}
 		return (LargeSessionObject) request.getSession().getAttribute(SESSION_LARGE_OBJECT);
 	}
+
 	public static LargeSessionObject createLargeObject(int sizeToUse){
 		return new LargeSessionObject(sizeToUse);
+	}
+
+	public static void logCount(Integer count) {
+		Logger.getLogger(SimpleWebFlowController.class).info(String.format("flowScope.counter is now %s", count));
 	}
 
 	@Resource
@@ -143,7 +122,4 @@ public class SimpleWebFlowController extends FlowController {
 		super.setFlowExecutor(flowExecutor);
 	}
 
-	public static void logCount(Integer count) {
-		Logger.getLogger(SimpleWebFlowController.class).info(String.format("flowScope.counter is now %s", count));
-	}
 }
