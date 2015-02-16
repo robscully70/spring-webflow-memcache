@@ -9,7 +9,8 @@
 
 	<!-- Maps '/' requests to the 'home' view -->
 	<mvc:view-controller path="/" view-name="home"/>
-	
+	<mvc:view-controller path="/doubleAjaxCallLoops" view-name="doubleAjaxCallLoops"/>
+
 	<context:component-scan base-package="org.springframework.samples.mvc" />
 	<context:component-scan base-package="org.springframework.test.memcache" />
 	<import resource="classpath*:flows/webflow.xml" />

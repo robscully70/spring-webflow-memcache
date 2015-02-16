@@ -82,6 +82,7 @@ by default the grow strategy is used. This can be changed with a debug variable 
 * [static size, changeing](http://localhost:8080/spring-mvc-showcase/flow/testFlow?debug=static-changing)
 * [static size, changeing](http://localhost:8080/spring-mvc-showcase/flow/testFlow?debug=large-changing) - large default 16MB can be changed with the parameter 'size' in bytes
 * [large, changing in webflow](http://localhost:8080/spring-mvc-showcase/flow/sessionChangingFlow?debug=webflow)
+* [multi threaded ajax session grow](http://localhost:8080/spring-mvc-showcase/doubleAjaxCallLoops)
 
 Spring MVC Showcase
 ====================
